@@ -91,6 +91,7 @@ module.exports = function (context) {
   if(!SWIFT_VERSION){
 	SWIFT_VERSION="5.0"
   }
+  log("swift version:"+SWIFT_VERSION,"info");
 
   if (contents) {
     contents = contents.substring(contents.indexOf('<'));
@@ -359,7 +360,7 @@ module.exports = function (context) {
           var buildSettingsObj = configurations[key].buildSettings;
           if (typeof buildSettingsObj['PRODUCT_NAME'] !== 'undefined') {
             var productName = buildSettingsObj['PRODUCT_NAME'];
-            if (productName.indexOf('Widget') >= 0) {
+            if (productName.indexOf(widgetName) >= 0) {
               if (addXcconfig) {
                 configurations[key].baseConfigurationReference =
                   xcconfigReference + ' /* ' + xcconfigFileName + ' */';
@@ -372,7 +373,7 @@ module.exports = function (context) {
               if (projectContainsSwiftFiles) {
                 buildSettingsObj['SWIFT_VERSION'] = SWIFT_VERSION;
                 buildSettingsObj['ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES'] = ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES || 'YES';
-                log('Added build settings for swift support!', 'info');
+                log('Added build settings for swift '+SWIFT_VERSION+' support!', 'info');
               }
               if (addBridgingHeader) {
                 buildSettingsObj['SWIFT_OBJC_BRIDGING_HEADER'] =
